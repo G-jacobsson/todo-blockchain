@@ -1,6 +1,8 @@
 import './App.css';
 import { ethers } from 'ethers';
 import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import { useEffect, useState } from 'react';
 
 if (window.ethereum) {
   window.provider = new ethers.BrowserProvider(window.ethereum);
@@ -10,6 +12,14 @@ if (window.ethereum) {
 }
 
 function App() {
+  const [todos, setTodos] = useState(
+    JSON.parse(localStorage.getItem('todos') || '[]')
+  );
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
   return (
     <div className="App">
       <header>
@@ -18,6 +28,7 @@ function App() {
       </header>
 
       <TodoForm />
+      <TodoList todos={todos} />
     </div>
   );
 }
