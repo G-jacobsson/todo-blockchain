@@ -36,6 +36,17 @@ export const removeTodo = async (id) => {
   await transaction.wait();
 };
 
+export const toggleTodo = async (id) => {
+  const provider = getProvider();
+
+  await requestAccount();
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(address, ABI, signer);
+
+  const transaction = await contract.toggleTodo(id);
+  await transaction.wait();
+};
+
 export const getTodos = async () => {
   const provider = getProvider();
   const contract = new ethers.Contract(address, ABI, provider);

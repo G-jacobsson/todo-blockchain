@@ -2,7 +2,12 @@ import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import { useEffect, useState } from 'react';
-import { createTodo, getTodos, removeTodo } from './services/blockchainService';
+import {
+  createTodo,
+  getTodos,
+  removeTodo,
+  toggleTodo,
+} from './services/blockchainService';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -36,6 +41,12 @@ function App() {
     }
   };
 
+  const toggleTodos = async (id) => {
+    await toggleTodo(id);
+    const updatedTodos = await getTodos();
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="App">
       <header>
@@ -47,6 +58,7 @@ function App() {
       <TodoList
         todos={todos}
         deleteTodo={deleteTodo}
+        onToggle={toggleTodos}
       />
     </div>
   );
