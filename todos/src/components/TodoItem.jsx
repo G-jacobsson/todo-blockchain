@@ -4,7 +4,7 @@ const TodoItem = ({ todo }) => {
   return (
     <li>
       <div>
-        <span>{todo.task}</span>
+        <span>{todo.text}</span>
       </div>
     </li>
   );

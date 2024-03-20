@@ -1,24 +1,24 @@
 import './App.css';
-import { ethers } from 'ethers';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import { useEffect, useState } from 'react';
-
-if (window.ethereum) {
-  window.provider = new ethers.BrowserProvider(window.ethereum);
-  console.log(window.provider);
-} else {
-  console.error('Metamask not found');
-}
+import { getTodos } from './services/blockchainService';
 
 function App() {
-  const [todos, setTodos] = useState(
-    JSON.parse(localStorage.getItem('todos') || '[]')
-  );
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos]);
+    const todosInit = async () => {
+      try {
+        const updatedTodos = await getTodos();
+        console.log('Todos fetched from contract:', updatedTodos);
+        setTodos(updatedTodos);
+      } catch (error) {
+        console.error('Failed to fetch todos:', error);
+      }
+    };
+    todosInit();
+  }, []);
 
   return (
     <div className="App">
