@@ -49,7 +49,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="app">
       {error && (
         <div className="error">
           <p>{error}</p>
