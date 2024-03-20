@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdClose } from 'react-icons/md';
 
 const TodoItem = ({ todo, deleteTodo, onToggle }) => {
   return (
@@ -6,7 +7,6 @@ const TodoItem = ({ todo, deleteTodo, onToggle }) => {
       <li>
         <div>
           <span
-            onClick={() => deleteTodo(todo.id)}
             style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
           >
             {todo.text}
@@ -17,6 +17,7 @@ const TodoItem = ({ todo, deleteTodo, onToggle }) => {
             onChange={() => onToggle(todo.id)}
           />
           <label>{todo.completed ? '(Completed)' : '(Not Completed)'}</label>
+          <MdClose onClick={() => deleteTodo(todo.id)} />
         </div>
       </li>
     </>
