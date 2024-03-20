@@ -10,6 +10,21 @@ const getProvider = () => {
   }
 };
 
+const requestAccount = async () => {
+  await window.ethereum.request({ method: 'eth_requestAccounts' });
+};
+
+export const createTodo = async (text) => {
+  const provider = getProvider();
+
+  await requestAccount();
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(address, ABI, signer);
+
+  const transaction = await contract.createTodo(text);
+  await transaction.wait();
+};
+
 export const getTodos = async () => {
   const provider = getProvider();
   const contract = new ethers.Contract(address, ABI, provider);

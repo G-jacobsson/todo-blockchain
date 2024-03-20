@@ -2,7 +2,7 @@ import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import { useEffect, useState } from 'react';
-import { getTodos } from './services/blockchainService';
+import { createTodo, getTodos } from './services/blockchainService';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -20,6 +20,12 @@ function App() {
     todosInit();
   }, []);
 
+  const addNewTodo = async (text) => {
+    await createTodo(text);
+    const updatedTodos = await getTodos();
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="App">
       <header>
@@ -27,7 +33,7 @@ function App() {
         <h2>Powered by Blockchain Technology</h2>
       </header>
 
-      <TodoForm />
+      <TodoForm addTodo={addNewTodo} />
       <TodoList todos={todos} />
     </div>
   );
