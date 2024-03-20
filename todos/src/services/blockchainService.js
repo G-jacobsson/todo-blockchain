@@ -5,8 +5,9 @@ const getProvider = () => {
   if (window.ethereum) {
     return new ethers.providers.Web3Provider(window.ethereum);
   } else {
-    console.error('Metamask not found');
-    return null;
+    throw new Error(
+      'Web3 provider not found. Please install a wallet like MetaMask to use the application.'
+    );
   }
 };
 

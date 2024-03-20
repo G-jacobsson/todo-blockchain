@@ -11,6 +11,7 @@ import {
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const todosInit = async () => {
@@ -19,7 +20,7 @@ function App() {
         console.log('Todos fetched from contract:', updatedTodos);
         setTodos(updatedTodos);
       } catch (error) {
-        console.error('Failed to fetch todos:', error);
+        setError(error.message);
       }
     };
     todosInit();
@@ -49,6 +50,18 @@ function App() {
 
   return (
     <div className="App">
+      {error && (
+        <div className="error">
+          <p>{error}</p>
+          <a
+            href="https://metamask.io/download.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Install Metamask
+          </a>
+        </div>
+      )}
       <header>
         <h1>To-do List</h1>
         <h2>Powered by Blockchain Technology</h2>
