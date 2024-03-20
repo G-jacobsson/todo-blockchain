@@ -2,7 +2,7 @@ import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import { useEffect, useState } from 'react';
-import { createTodo, getTodos } from './services/blockchainService';
+import { createTodo, getTodos, removeTodo } from './services/blockchainService';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -26,6 +26,16 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  const deleteTodo = async (id) => {
+    try {
+      await removeTodo(id);
+      const updatedTodos = await getTodos();
+      setTodos(updatedTodos);
+    } catch (error) {
+      console.error('Failed to remove todo:', error);
+    }
+  };
+
   return (
     <div className="App">
       <header>
@@ -34,7 +44,10 @@ function App() {
       </header>
 
       <TodoForm addTodo={addNewTodo} />
-      <TodoList todos={todos} />
+      <TodoList
+        todos={todos}
+        deleteTodo={deleteTodo}
+      />
     </div>
   );
 }

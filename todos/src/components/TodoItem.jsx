@@ -1,10 +1,10 @@
 import React from 'react';
 
-const TodoItem = ({ todo }) => {
+const TodoItem = ({ todo, deleteTodo }) => {
   return (
     <li>
       <div>
-        <span>{todo.text}</span>
+        <span onClick={() => deleteTodo(todo.id)}>{todo.text}</span>
       </div>
     </li>
   );
