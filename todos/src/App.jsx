@@ -49,8 +49,7 @@ function App() {
       const updatedTodos = await blockchainService.getTodos(readContract);
       setTodos(updatedTodos);
     } catch (error) {
-      console.error('Failed to add todo:', error);
-      setError(`Failed to add todo.`);
+      setError('Failed to add todo.');
     }
   };
 
