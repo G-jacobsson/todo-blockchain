@@ -68,6 +68,7 @@ function App() {
         <div className="wrapper wrapper--narrow">
           <h1>To-do List</h1>
           <h2>Powered by Blockchain Technology</h2>
+          <h3>The ultimate task management in one to-do app</h3>
         </div>
       </header>
 
