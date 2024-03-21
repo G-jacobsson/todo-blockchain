@@ -26,11 +26,17 @@ const TodoForm = ({ contract, todosRefresh }) => {
   return (
     <form onSubmit={handleSubmit}>
       <input
+        className="todo-input"
         type="text"
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
       />
-      <button type="submit">Add To-do</button>
+      <button
+        className="add-btn"
+        type="submit"
+      >
+        Add To-do
+      </button>
     </form>
   );
 };

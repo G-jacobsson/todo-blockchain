@@ -15,20 +15,27 @@ const TodoItem = ({ todo, contract, todosRefresh }) => {
 
   return (
     <>
-      <li>
-        <div>
-          <span
-            style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
-          >
-            {todo.text}
-          </span>
+      <li className="list-item">
+        <div className="item">
           <input
             type="checkbox"
             checked={todo.completed}
             onChange={() => toggleTodo(todo.id)}
           />
+          <span
+            className="todo-text"
+            style={{
+              textDecoration: todo.completed ? 'line-through' : 'none',
+              fontWeight: todo.completed ? '200' : 'bold',
+            }}
+          >
+            {todo.text}
+          </span>
           <label>{todo.completed ? '(Completed)' : '(Not Completed)'}</label>
-          <MdClose onClick={() => deleteTodo(todo.id)} />
+          <MdClose
+            className="delete-btn"
+            onClick={() => deleteTodo(todo.id)}
+          />
         </div>
       </li>
     </>

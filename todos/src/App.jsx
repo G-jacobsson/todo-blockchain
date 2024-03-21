@@ -65,26 +65,34 @@ function App() {
         </div>
       )}
       <header>
-        <h1>To-do List</h1>
-        <h2>Powered by Blockchain Technology</h2>
+        <div className="wrapper wrapper--narrow">
+          <h1>To-do List</h1>
+          <h2>Powered by Blockchain Technology</h2>
+        </div>
       </header>
 
       {wallet?.accounts.length > 0 && (
         <>
-          <div>Wallet Account: {wallet.accounts[0]}</div>
-          <p>Balance: {wallet.balance}</p>
+          <div className="wallet wrapper wrapper--narrow">
+            Wallet Account: {wallet.accounts[0]}
+            <p>Balance: {wallet.balance}</p>
+          </div>
         </>
       )}
 
-      <TodoForm
-        contract={writeContract}
-        todosRefresh={todosRefresh}
-      />
-      <TodoList
-        todos={todos}
-        contract={writeContract}
-        todosRefresh={todosRefresh}
-      />
+      <main>
+        <div className="wrapper">
+          <TodoForm
+            contract={writeContract}
+            todosRefresh={todosRefresh}
+          />
+          <TodoList
+            todos={todos}
+            contract={writeContract}
+            todosRefresh={todosRefresh}
+          />
+        </div>
+      </main>
     </div>
   );
 }

@@ -1,7 +1,133 @@
-.app {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+
+:root {
+  --ff-sans: 'Poppins', sans-serif;
+  --fw-light: 200;
+  --fw-normal: 400;
+  --fw-bold: 600;
+  --fs-400: 1rem;
+  --fs-500: 1.5rem;
+  --fs-900: 2.5rem;
+  --clr-neutral-900: hsl(234, 12%, 34%);
+  --clr-neutral-400: hsl(229, 6%, 66%);
+  --clr-neutral-100: hsl(0, 0%, 98%);
+  --clr-border: hsl(22, 70%, 55%);
+  --clr-border-input: hsl(0, 0%, 80%);
+  --clr-border-list: hsl(44, 70%, 52%);
+}
+
+html {
+  font-family: var(--ff-sans);
+  font-weight: var(--fw-normal);
+  line-height: 1.7;
+  color: var(--clr-neutral-400);
+  background: var(--clr-neutral-100);
+}
+
+h1,
+h2 {
+  color: var(--clr-neutral-900);
+  line-height: 1.1;
+  font-size: var(--fs-900);
+}
+
+.wrapper {
+  max-width: 1100px;
+  margin-inline: auto;
+}
+.wrapper--narrow {
+  max-width: 600px;
+}
+
+header {
+  text-align: center;
+  margin-block: 5rem;
+}
+
+h1 {
+  font-weight: var(--fw-light);
+  color: var(--clr-neutral-400);
+}
+
+h2 {
+  font-size: var(--fs-500);
+}
+
+.wallet {
+  text-align: center;
+  margin-block-end: 20px;
+}
+
+main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+.list-item {
+  list-style: none;
+  border: 2px solid var(--clr-border);
+  border-radius: 5px;
+  margin-block: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.todo-input {
+  margin: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--clr-border-input);
+}
+
+.add-btn {
+  background: linear-gradient(to bottom right, #ef4765, #ff9a5a);
+  border: 0;
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  outline: transparent;
+  padding: 0.3rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow 0.2s ease-in-out;
+  user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.add-btn:not([disabled]):focus {
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+    -0.125rem -0.125rem 1rem rgba(239, 71, 101, 0.5),
+    0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.add-btn:not([disabled]):hover {
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+    -0.125rem -0.125rem 1rem rgba(239, 71, 101, 0.5),
+    0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+ul {
+  padding: 20px;
+  margin-block-start: 4rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.todo-text {
+  font-weight: var(--fw-bold);
+  color: var(--clr-neutral-900);
+}
+
+.delete-btn {
+  cursor: pointer;
+  font-size: var(--fs-500);
+  color: var(--clr-neutral-900);
 }
 
 .error {
