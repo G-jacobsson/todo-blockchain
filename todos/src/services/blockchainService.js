@@ -37,21 +37,18 @@ export const getWriteContract = () => {
 
 const blockchainService = {
   createTodo: async (text) => {
-    await requestAccount();
     const contract = getWriteContract();
     const transaction = await contract.createTodo(text);
     await transaction.wait();
   },
 
   removeTodo: async (id) => {
-    await requestAccount();
     const contract = getWriteContract();
     const transaction = await contract.removeTodo(id);
     await transaction.wait();
   },
 
   toggleTodo: async (id) => {
-    await requestAccount();
     const contract = getWriteContract();
     const transaction = await contract.toggleTodo(id);
     await transaction.wait();
