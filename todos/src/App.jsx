@@ -50,7 +50,7 @@ function App() {
       setTodos(updatedTodos);
     } catch (error) {
       console.error('Failed to add todo:', error);
-      setError(`Failed to add todo: ${error.message}`);
+      setError(`Failed to add todo.`);
     }
   };
 
