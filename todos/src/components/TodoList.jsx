@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 
-const TodoList = ({ todos, deleteTodo, onToggle }) => {
+const TodoList = ({ todos, todosRefresh, contract }) => {
   return (
     <div>
       {todos.length > 0 ? (
@@ -10,8 +10,8 @@ const TodoList = ({ todos, deleteTodo, onToggle }) => {
             <TodoItem
               key={todo.id}
               todo={todo}
-              deleteTodo={deleteTodo}
-              onToggle={onToggle}
+              todosRefresh={todosRefresh}
+              contract={contract}
             />
           ))}
         </ul>

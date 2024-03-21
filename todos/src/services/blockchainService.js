@@ -11,6 +11,19 @@ const getProvider = () => {
   }
 };
 
+export const updateWallet = async () => {
+  let accounts = await await window.ethereum.request({
+    method: 'eth_requestAccounts',
+  });
+  const balance = await window.ethereum.request({
+    method: 'eth_getBalance',
+    params: [accounts[0], 'latest'],
+  });
+  const formatBalance =
+    Number(ethers.utils.formatEther(balance)).toFixed(2) + ' ETH';
+  return { accounts, balance: formatBalance };
+};
+
 export const getReadContract = () => {
   const provider = getProvider();
   return new ethers.Contract(address, ABI, provider);
@@ -22,27 +35,19 @@ export const getWriteContract = () => {
   return new ethers.Contract(address, ABI, signer);
 };
 
-const requestAccount = async () => {
-  await window.ethereum.request({ method: 'eth_requestAccounts' });
-};
-
 const blockchainService = {
   createTodo: async (text) => {
     await requestAccount();
     const contract = getWriteContract();
-    console.log(`Creating todo: ${text}`);
     const transaction = await contract.createTodo(text);
     await transaction.wait();
-    console.log(`Todo created: ${text}`);
   },
 
   removeTodo: async (id) => {
     await requestAccount();
     const contract = getWriteContract();
-    console.log(`Removing todo: ${id}`);
     const transaction = await contract.removeTodo(id);
     await transaction.wait();
-    console.log(`Todo removed: ${id}`);
   },
 
   toggleTodo: async (id) => {
@@ -57,7 +62,7 @@ const blockchainService = {
     const todosCount = await contract.todoCount();
     const todos = [];
 
-    for (let i = 1; i <= todosCount.toNumber(); i++) {
+    for (let i = 0; i <= todosCount.toNumber(); i++) {
       const todo = await contract.todos(i);
       if (todo.id.toNumber() !== 0) {
         todos.push({

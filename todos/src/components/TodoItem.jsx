@@ -1,7 +1,18 @@
 import React from 'react';
 import { MdClose } from 'react-icons/md';
+import blockchainService from '../services/blockchainService';
 
-const TodoItem = ({ todo, deleteTodo, onToggle }) => {
+const TodoItem = ({ todo, contract, todosRefresh }) => {
+  const deleteTodo = async (id) => {
+    await blockchainService.removeTodo(id, contract);
+    todosRefresh();
+  };
+
+  const toggleTodo = async (id) => {
+    await blockchainService.toggleTodo(id, contract);
+    todosRefresh();
+  };
+
   return (
     <>
       <li>
@@ -14,7 +25,7 @@ const TodoItem = ({ todo, deleteTodo, onToggle }) => {
           <input
             type="checkbox"
             checked={todo.completed}
-            onChange={() => onToggle(todo.id)}
+            onChange={() => toggleTodo(todo.id)}
           />
           <label>{todo.completed ? '(Completed)' : '(Not Completed)'}</label>
           <MdClose onClick={() => deleteTodo(todo.id)} />

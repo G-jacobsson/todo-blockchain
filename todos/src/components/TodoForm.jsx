@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
+import blockchainService from '../services/blockchainService';
 
-const TodoForm = ({ addTodo }) => {
+const TodoForm = ({ contract, todosRefresh }) => {
   const [newTodo, setNewTodo] = useState('');
+
+  const addNewTodo = async (text) => {
+    if (!text.trim()) {
+      alert('Please enter a valid todo.');
+      return;
+    }
+    try {
+      await blockchainService.createTodo(text, contract);
+      todosRefresh();
+    } catch (error) {
+      alert(`Failed to add todo. Error: ${error.message}`);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo(newTodo);
+    addNewTodo(newTodo);
     setNewTodo('');
   };
 

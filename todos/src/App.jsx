@@ -1,10 +1,11 @@
 import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import blockchainService, {
   getReadContract,
   getWriteContract,
+  updateWallet,
 } from './services/blockchainService';
 
 function App() {
@@ -12,58 +13,42 @@ function App() {
   const [error, setError] = useState('');
   const [readContract, setReadContract] = useState();
   const [writeContract, setWriteContract] = useState();
+  const [wallet, setWallet] = useState({
+    accounts: [],
+    balance: '',
+  });
 
   useEffect(() => {
-    (async () => {
+    const initApp = async () => {
       try {
         setReadContract(getReadContract());
         setWriteContract(getWriteContract());
-      } catch (error) {
-        setError(`Failed to get contract: ${error.message}`);
-      }
-    })();
-  }, []);
+        const initialTodos = await blockchainService.getTodos(readContract);
+        setTodos(initialTodos);
 
-  useEffect(() => {
-    const todosInit = async () => {
-      try {
-        const updatedTodos = await blockchainService.getTodos();
-        setTodos(updatedTodos);
+        const walletData = await updateWallet();
+        setWallet(walletData);
       } catch (error) {
         setError(error.message);
       }
     };
-    if (readContract) {
-      todosInit();
-    }
-  }, [readContract]);
+    initApp();
+  }, []);
 
-  const addNewTodo = async (text) => {
-    if (!text.trim()) {
-      alert('Please enter a valid todo.');
-      return;
-    }
-
+  const todosRefresh = useCallback(async () => {
     try {
-      await blockchainService.createTodo(text);
       const updatedTodos = await blockchainService.getTodos(readContract);
       setTodos(updatedTodos);
     } catch (error) {
-      setError('Failed to add todo.');
+      setError(error.message);
     }
-  };
+  }, [readContract]);
 
-  const deleteTodo = async (id) => {
-    await blockchainService.removeTodo(id);
-    const updatedTodos = await blockchainService.getTodos(readContract);
-    setTodos(updatedTodos);
-  };
-
-  const toggleTodos = async (id) => {
-    await blockchainService.toggleTodo(id);
-    const updatedTodos = await blockchainService.getTodos(readContract);
-    setTodos(updatedTodos);
-  };
+  useEffect(() => {
+    if (readContract) {
+      todosRefresh();
+    }
+  }, [readContract, todosRefresh]);
 
   return (
     <div className="app">
@@ -84,11 +69,21 @@ function App() {
         <h2>Powered by Blockchain Technology</h2>
       </header>
 
-      <TodoForm addTodo={addNewTodo} />
+      {wallet?.accounts.length > 0 && (
+        <>
+          <div>Wallet Account: {wallet.accounts[0]}</div>
+          <p>Balance: {wallet.balance}</p>
+        </>
+      )}
+
+      <TodoForm
+        contract={writeContract}
+        todosRefresh={todosRefresh}
+      />
       <TodoList
         todos={todos}
-        deleteTodo={deleteTodo}
-        onToggle={toggleTodos}
+        contract={writeContract}
+        todosRefresh={todosRefresh}
       />
     </div>
   );
