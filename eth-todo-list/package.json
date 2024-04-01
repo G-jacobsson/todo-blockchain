@@ -19,5 +19,9 @@
     },
     "directories": {
         "test": "test"
+    },
+    "dependencies": {
+        "@truffle/hdwallet-provider": "^2.1.15",
+        "dotenv": "^16.4.5"
     }
 }
