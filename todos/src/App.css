@@ -148,6 +148,12 @@ ul {
   margin-block: 20px;
 }
 
+.login-prompt {
+  text-align: center;
+  margin-block: 20px;
+  color: var(--clr-border);
+}
+
 @media (max-width: 600px) {
   html {
     overflow-wrap: break-word;
