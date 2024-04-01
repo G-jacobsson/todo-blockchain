@@ -20,16 +20,31 @@ function App() {
 
   useEffect(() => {
     const initApp = async () => {
-      try {
-        setReadContract(getReadContract());
-        setWriteContract(getWriteContract());
-        const initialTodos = await blockchainService.getTodos(readContract);
-        setTodos(initialTodos);
+      if (window.ethereum) {
+        try {
+          window.ethereum.on('accountsChanged', async (accounts) => {
+            if (accounts.length > 0) {
+              const walletData = await updateWallet();
+              setWallet(walletData);
+            } else {
+              setWallet({ accounts: [], balance: '' });
+            }
+          });
 
-        const walletData = await updateWallet();
-        setWallet(walletData);
-      } catch (error) {
-        setError(error.message);
+          const accounts = await window.ethereum.request({
+            method: 'eth_accounts',
+          });
+          if (accounts.length > 0) {
+            const walletData = await updateWallet();
+            setWallet(walletData);
+          }
+          setReadContract(getReadContract());
+          setWriteContract(getWriteContract());
+        } catch (error) {
+          setError(error.message);
+        }
+      } else {
+        setError('Please install MetaMask to use this app.');
       }
     };
     initApp();
@@ -72,28 +87,31 @@ function App() {
         </div>
       </header>
 
-      {wallet?.accounts.length > 0 && (
+      {!wallet.accounts.length ? (
+        <div className="login-prompt">
+          <p>Please log in to MetaMask</p>
+        </div>
+      ) : (
         <>
           <div className="wallet wrapper wrapper--narrow">
             Wallet Account: {wallet.accounts[0]}
             <p>Balance: {wallet.balance}</p>
           </div>
+          <main>
+            <div className="wrapper">
+              <TodoForm
+                contract={writeContract}
+                todosRefresh={todosRefresh}
+              />
+              <TodoList
+                todos={todos}
+                contract={writeContract}
+                todosRefresh={todosRefresh}
+              />
+            </div>
+          </main>
         </>
       )}
-
-      <main>
-        <div className="wrapper">
-          <TodoForm
-            contract={writeContract}
-            todosRefresh={todosRefresh}
-          />
-          <TodoList
-            todos={todos}
-            contract={writeContract}
-            todosRefresh={todosRefresh}
-          />
-        </div>
-      </main>
     </div>
   );
 }
