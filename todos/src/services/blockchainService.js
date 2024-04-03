@@ -12,7 +12,7 @@ const getProvider = () => {
 };
 
 export const updateWallet = async () => {
-  let accounts = await await window.ethereum.request({
+  let accounts = await window.ethereum.request({
     method: 'eth_requestAccounts',
   });
   const balance = await window.ethereum.request({
